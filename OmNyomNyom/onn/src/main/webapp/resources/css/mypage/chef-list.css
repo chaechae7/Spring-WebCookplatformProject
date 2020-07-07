@@ -1,0 +1,89 @@
+.chef-content {
+	margin-bottom: 15px;
+}
+
+.che-list-p p {
+	line-height: 1em;
+}
+
+.chef_list_img {
+	width: 100px;
+}
+
+.chef_list_chek_btn {
+	margin-top: 20px;
+	margin: auto;
+}
+
+.ac_btn {
+	width: 40px;
+	padding: auto;
+}
+
+.th_border {
+	border-bottom: 1px solid black;
+}
+
+.font-17 {
+	font-size: 17px;
+}
+
+.nav_text {
+	font-weight: 600;
+	color: hsl(0, 0%, 69%);
+}
+
+.selected_nav {
+	color: #355752;
+}
+
+.section {
+	padding-top: 150px;
+}
+
+.border_bottom {
+	border-bottom: 2px solid black;
+}
+
+.wait-ment {
+	color: red;
+	font-size: small;
+}
+
+.floatRight span {
+	float: right;
+}
+
+.update-button {
+	border-radius: 20px;
+	border: 1px solid #4c72fc;
+	background-color: #4c72fc;
+	color: #FFFFFF;
+	font-size: 14px;
+	font-weight: bold;
+	padding: 10px 20px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+	display: inline-block;
+	
+}
+
+.div-update-button{
+	text-align: center;
+}
+
+.update-button:active {
+	transform: scale(0.95);
+}
+
+.update-button:focus {
+	outline: none;
+}
+
+.update-input-box {
+  background-color: #cfd9fe;
+  border: none;
+/*   padding: 12px 15px;
+  margin: 8px 0; */
+  width: 60%;

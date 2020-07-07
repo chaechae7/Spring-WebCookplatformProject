@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mall">
+
+<select id="selectBuyList" resultMap="BuyHistoryMap">
+	select
+		i.ingredient_name,
+		n.stock,
+		n.price, 
+		b.regdate, 
+		b.buy_status
+	from tb_buy_no n join tb_buy_list b on n.buy_no = b.buy_no
+                     join tb_ingredient i on n.ingredient_no = i.ingredient_no
+	where 
+		b.member_id = #{buyMemberId}
+</select>
+
+
+<select id="selectAdminBuyList" resultType="buyHistory">
+	select
+		*
+	from
+		tb_buy_list
+</select>
+<update id="updateIngMall" >
+	update 
+		tb_ingredient_mall 
+	set 
+		price = #{price}, 
+		stock = #{stock}, 
+		min_unit = #{minUnit}
+	where ingredient_no = #{ingNo}
+</update>
+
+<resultMap id="BuyHistoryMap" type="BuyHistory">
+    <result column="ingredient_name" property="buyMemberId"/>
+    <result column="stock" property="buyStock"/>
+	<result column="price" property="totalPrice"/>
+	<result column="regdate" property="buyRegdate"/>
+</resultMap>
+
+
+<select id="selectIngredientList" resultMap="ingMallMap">
+	select
+		*
+	from
+		tb_Ingredient i
+		join tb_ingredient_mall im on i.ingredient_no = im.ingredient_no
+	where
+		i.ing_cd_category	= #{column}
+</select>
+
+
+<select id="selectBuyHistoryListCnt" resultType="string">
+	select
+		count(*)
+	from
+		tb_buy_list 
+</select>
+
+<select id="selectBuyHistoryList" resultType="buyHistory">
+select 
+	b.*,
+	(select member_name from tb_member where b.member_id = member_id) buyMemberName
+from 
+	tb_buy_list b
+</select>
+
+<select id="selectIngMallOne" resultMap="ingMallMap">
+	select
+		*
+	from
+		tb_ingredient_mall
+	join tb_ingredient using(ingredient_no)
+		
+	where
+		ingredient_no = #{ingMallNo}
+</select>
+
+<select id="selectBuyItemOne" resultMap="ingMallMap">
+	select 
+	    i.INGREDIENT_NO,
+	    i.INGREDIENT_NAME,
+	    b.price,
+	    b.stock,
+	    i.ENG_PR_CATEGORY,
+	    i.ENG_CD_CATEGORY,
+	    i.ING_FILENAME
+	from 
+	    tb_buy_no b
+	    join 
+	    TB_INGREDIENT i on b.INGREDIENT_NO = i.INGREDIENT_NO
+	where
+	    buy_no = #{buyNo}
+</select>
+<resultMap type="IngredientMall" id="ingMallMap">
+	<id column="ingredient_no" property="ingMallNo"/>
+	<result column="ingredient_name" property="ingMallName"/>
+	<result column="ING_FILENAME" property="prevImg"/>
+	<result column="ENG_PR_CATEGORY" property="mallEngPrCategory"/>
+	<result column="ENG_CD_CATEGORY" property="mallEngCdCategory"/>
+</resultMap>
+
+
+<!-- 장바구니  -->
+<insert id="insertCart">
+	insert into
+		tb_shopping_basket
+	values(
+		#{sbMemberId},
+		#{sbIngNo},
+		#{sbStock})
+</insert>
+<update id="updateCart">
+	update
+		tb_shopping_basket
+	set
+		stock = ${sbStock}
+	where
+		member_id = #{sbMemberId} 
+		and
+		ingredient_no = #{sbIngNo}
+</update>
+<select id="selectCart" resultMap="sbMap">
+	select
+		ingredient_no, stock
+	from
+		tb_shopping_basket
+	where
+		member_id = #{sbMemberId}
+		and
+		ingredient_no = #{sbIngNo}
+</select>
+<delete id="deleteCart">
+	delete from
+		tb_shopping_basket
+	where
+		member_id = #{sbMemberId}
+		and
+		ingredient_no = #{sbIngNo}
+</delete>
+
+
+<select id="selectCartList" resultMap="sbMap">
+	select
+		sb.*,i.INGREDIENT_NAME, ig.PRICE, ig.MIN_UNIT, i.ENG_PR_CATEGORY, i.ENG_CD_CATEGORY, i.ING_FILENAME
+	from
+		tb_shopping_basket sb
+		join tb_ingredient_mall ig on sb.INGREDIENT_NO = ig.INGREDIENT_NO
+		join tb_ingredient i on sb.INGREDIENT_NO = i.INGREDIENT_NO
+	where
+		sb.member_Id = #{memberId}
+</select>
+<resultMap type="Cart" id="sbMap">
+	<id column="INGREDIENT_NO" property="sbIngNo"/>
+	<result column="stock" property="sbStock"/>
+	<result column="MEMBER_ID" property="sbMemberId"/>
+	<result column="INGREDIENT_NAME" property="ingMallName"/>
+	<result column="MIN_UNIT" property="minUnit"/>
+	<result column="ENG_PR_CATEGORY" property="mallEngPrCategory"/>
+	<result column="ENG_CD_CATEGORY" property="mallEngCdCategory"/>
+	<result column="ING_FILENAME" property="prevImg"/>
+
+</resultMap>
+<select id="selectIngMallSearch" resultMap="ingMallMap">
+	select 
+		*
+	from
+		tb_ingredient_mall im
+        join tb_ingredient i on im.INGREDIENT_NO = i.INGREDIENT_NO
+	where
+		i.INGREDIENT_NAME like '%'||#{keyword}||'%'
+</select>
+
+
+	<insert id="insertBuyHistory">
+		insert into tb_buy_list values (
+			seq_buy.nextval,
+			#{buyMemberId},
+			#{totalPrice},
+			default,
+			#{buyStatus},
+			#{shippingAddress},
+			#{receiverPhone},
+			#{buyEmail},
+			#{memo}
+		)
+		<selectKey keyColumn="buy_no" keyProperty="buyNo" resultType="_int" order="AFTER">
+			select seq_buy.currval from dual
+		</selectKey>
+	</insert>
+
+	
+	<insert id="insertBuyItem" parameterType="_int">
+    INSERT All 
+	    <foreach collection="list" item="item" separator=" " >
+	        INTO tb_buy_no (buy_no, ingredient_no, stock, price) VALUES
+	        (${item.buyNo}, ${item.ingredientNo}, ${item.stock}, ${item.price})
+	    </foreach>
+	select * from dual
+	</insert>
+
+
+<select id="prCategory" resultType="String">
+	select 
+	eng_pr_category 
+	from 
+	(select 
+		eng_pr_category 
+	 from 
+	 	tb_ingredient 
+	 where 
+	 ing_pr_category =#{pr})
+	 group by eng_pr_category
+
+</select>
+<select id="crCategory" resultType="String">
+select 
+	eng_cd_category 
+from (select 
+		eng_cd_category 
+	  from tb_ingredient 
+	  where ing_cd_category = #{cr})
+	   group by eng_cd_category
+</select>
+<insert id="ingredientInsert">
+			insert	into
+				tb_ingredient_mall
+			values(
+				seq_ingredient.currval(),
+				#{price},
+				#{stock},
+				#{minUnit},
+				#{ingOrigin},
+				#{shelfLife},
+				#{ingInfo}
+			)
+</insert>
+</mapper>

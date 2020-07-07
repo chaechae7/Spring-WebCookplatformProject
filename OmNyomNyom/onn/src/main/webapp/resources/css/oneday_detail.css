@@ -1,0 +1,126 @@
+@charset "UTF-8";
+.classes-info{
+ margin-top : 53px;
+}
+h2{
+ margin-top : 20px;
+ margin-bottom : 20px;
+}
+.class-map, .class-map p{
+ margin-top : 30px;
+ color: #f65d5d;
+}
+.site-btn{
+	margin-top : 20px;
+}
+.mapser{
+	margin-bottom: 25px;
+}
+.circle-select{
+	display: block;
+}
+.onedayprice{
+	font-weight: bold;
+	font-size: 28px;
+	line-height: 30px;
+	letter-spacing: -0.5px;
+	word-break: break-all;
+	color: #4949E7;
+
+}
+.onedayprice{
+	margin-bottom : 20px;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+-webkit-appearance: none;
+margin: 0;
+}
+.classReview {
+    float: right;
+    margin-bottom: 55px;
+}
+@charset "UTF-8";
+@import url("https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
+.pcs:after {
+  content: " pcs";
+}
+
+.cur:before {
+  content: "$";
+}
+
+.per:after {
+  content: "%";
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  padding: 0.2em 2em;
+}
+
+table {
+  width: 100%;
+}
+table th {
+  text-align: left;
+  border-bottom: 1px solid #000;
+}
+table th, table td {
+  padding: 0.4em;
+}
+
+table.fold-table > tbody > tr.view td, table.fold-table > tbody > tr.view th {
+  cursor: pointer;
+}
+table.fold-table > tbody > tr.view td:first-child,
+table.fold-table > tbody > tr.view th:first-child {
+  position: relative;
+  padding-left: 20px;
+}
+table.fold-table > tbody > tr.view td:first-child:before,
+table.fold-table > tbody > tr.view th:first-child:before {
+  position: absolute;
+  top: 50%;
+  left: 5px;
+  width: 9px;
+  height: 16px;
+  margin-top: -8px;
+  font: 16px fontawesome;
+  color: #000;
+/*   content: ""; */
+  transition: all 0.3s ease;
+}
+
+table.fold-table > tbody > tr.view:hover {
+  background: #ddd;
+}
+table.fold-table > tbody > tr.view.open {
+  background: tomato;
+  color: white;
+}
+table.fold-table > tbody > tr.view.open td:first-child:before, table.fold-table > tbody > tr.view.open th:first-child:before {
+  transform: rotate(-180deg);
+  color: #000;
+}
+table.fold-table > tbody > tr.fold {
+  display: none;
+}
+table.fold-table > tbody > tr.fold.open {
+  display: table-row;
+}
+.fold-content {
+  padding: 0.5em;
+}
+.fold-content h3 {
+  margin-top: 0;
+}
+.fold-content > table {
+  border: 2px solid #ccc;
+}
+.fold-content > table > tbody tr:nth-child(even) {
+  background: #000;
+}

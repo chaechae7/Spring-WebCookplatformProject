@@ -1,0 +1,91 @@
+.border-rai{
+    		border-radius: 50%;
+    	}
+        .price-font{
+            color: red;
+            font-weight: bold;
+        }
+        .mini-font{
+        	font-size: 11px;
+            margin-bottom: 0.2em;
+        }
+        /* 메인 카테고리 관련 */
+        .main-ctg-menu {
+            list-style: none;
+            text-align: center;
+            padding-top: 15px;
+        }
+        @media only screen and (min-width: 768px) and (max-width: 991px),
+        only screen and (min-width: 576px) and (max-width: 767px),
+        (max-width: 576px) {
+            .main-ctg-menu {
+                display: none;
+            }
+        }
+        .main-ctg-menu li {
+            display: inline-block;
+            margin-right: 50px;
+            position: relative;
+        }
+        .main-ctg-menu li>p:hover {
+            color: rgba(205, 92, 92, 0.753);
+        }
+        @media only screen and (min-width: 992px) and (max-width: 1200px) {
+            .main-ctg-menu li {
+                margin-right: 15px;
+            }
+        }
+        .main-ctg-menu li:last-child {
+            margin-right: 0;
+        }
+        .main-ctg-menu li>p {
+            display: block;
+            padding-bottom: 5px;
+            font-size: 15px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: gray;
+        }
+        .main-ctg-menu li>p.active {
+            color: indianred;
+        }
+        /* 서브 카테고리 관련 */
+        .sub-ctg-menu {
+            list-style: none;
+            text-align: center;
+            padding-top: 15px;
+        }
+        @media only screen and (min-width: 768px) and (max-width: 991px),
+        only screen and (min-width: 576px) and (max-width: 767px),
+        (max-width: 576px) {
+            .sub-ctg-menu {
+                display: none;
+            }
+        }
+        .sub-ctg-menu li {
+            display: inline-block;
+            margin-right: 50px;
+            position: relative;
+        }
+        @media only screen and (min-width: 992px) and (max-width: 1200px) {
+            .sub-ctg-menu li {
+                margin-right: 15px;
+            }
+        }
+        .sub-ctg-menu li:last-child {
+            margin-right: 0;
+        }
+        .sub-ctg-menu li>p {
+            display: block;
+            padding-bottom: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: gray;
+        }
+        .sub-ctg-menu li>p.active {
+            border-bottom: 3px solid indianred;
+        }
+        .sub-ctg-menu li>p:hover {
+            border-bottom: 3px solid rgba(205, 92, 92, 0.753);
+        }

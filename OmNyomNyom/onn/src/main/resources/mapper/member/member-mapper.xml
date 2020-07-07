@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+
+<insert id="insertMember">
+	insert into
+		tb_member
+	values(
+		#{memberId},
+		#{memberPwd},
+		#{memberNick},
+		#{memberName},
+		#{phone},
+		#{email},
+		#{ssn},
+		default,
+		default,
+		#{address}
+	)
+</insert>
+
+<select id="selectMember" resultType="member">
+	select
+		*
+	from
+		tb_member
+	where
+	<if test="memberId != null">
+		member_id = #{memberId}
+	</if> 
+	<if test="memberNick != null">
+		member_nick = #{memberNick}
+	</if>
+</select>
+
+<select id="selectOne" resultType="member">
+	select
+		*
+	from
+		tb_member
+	where
+		member_id = #{memberId}
+</select>
+
+<select id="selectMemberList" resultType="member">
+	select
+		*
+	from
+		tb_member
+	order by 
+		regdate
+</select>
+
+<select id="selectMemberListCnt" resultType="String">
+	select
+		count(*)
+	from
+		tb_member
+</select>
+
+<update id="updateDingdong">
+	update
+		tb_dingdong
+	set
+		dingdong_read = 0
+	where
+		dingdong_no = #{dingdongNo}
+</update>
+
+ <insert id="insertDingdong">
+	insert into
+		tb_dingdong
+	values{
+		#{dongdongNo},
+		#{dingMemberId},
+		#{dingdongContent},
+		#{dingdongLink},
+		#{dingdongRead},
+		#{dingRegDate}
+	}
+</insert>
+
+<select id="selectDingdongListCnt" resultType="dingdong">
+	select
+		count(*)
+	from
+		tb_dingdong
+</select>
+
+<select id="dingdongList" resultType="dingdong">
+	select
+		*
+	from
+		tb_dingdong
+	where member_id = #{dingMemberId}
+	<if test="size == 'small'">
+		AND dingdong_read = 1
+	</if>
+</select>
+
+<select id="dingdongTestList" resultType="dingdong">
+	select
+		*
+	from
+		tb_dingdong
+	where member_id = #{dingMemberId}
+	<if test="size == 'small'">
+		AND dingdong_read = 1;
+	</if>
+
+</select>
+
+<select id="memberInfo" resultType="member">
+	select
+		*
+	from
+		tb_member
+	where
+		member_id = #{memberId}
+</select>
+
+<update id="updateInfo" parameterType="hashmap">
+	update
+		tb_member
+	set
+		phone = #{member.phone},
+		email = #{member.email},
+		address = #{member.address}
+	where
+		member_id = #{member.memberId}
+</update>
+
+<select id="searchNick" resultType="member">
+	select member_nick, phone from tb_member where member_Id = #{memberId}
+
+</select>
+
+</mapper>

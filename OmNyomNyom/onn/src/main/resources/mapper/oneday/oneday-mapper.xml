@@ -1,0 +1,293 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="oneday">
+
+<!-- 셰프가 다른 원데이클래스 예약 할 때  -->
+<select id="selectReservationList" resultType="ReservationRequest">
+	
+    select
+        r.RESERVATION_NO,
+        (select ONEDAY_NAME from TB_ONEDAYCLASS where ONEDAYCLASS_NO = r.ONEDAYCLASS_NO) ONEDAY_CLASS_NAME,
+        (select ONEDAYTIME_DATE from TB_ONEDAYCLASSTIME where ONEDAYTIME_NO = r.ONEDAYTIME_NO) ONEDAY_TIME,
+        r.MEMBER_ID,
+        (select MEMBER_NAME from TB_MEMBER where MEMBER_ID = r.MEMBER_ID) MEMBER_NAME,
+        r.PERSONNEL,
+        r.RES_PRICE total_price,
+        r.REGDATE
+    from 
+        TB_RESERVATION r   
+   <where>
+		<if test="value != null">
+			r.member_id = #{reserMemberId}
+		</if>
+	</where>
+	order by 
+		reservation_no desc
+</select>
+
+<!-- 일반유저가 원데이클래스 예약할 때 -->
+<select id="selectReservationListUser" resultMap="ReservationListMap">
+	select
+		res.reservation_no,
+        (select oneday_name from tb_onedayclass where res.onedayclass_no = onedayclass_no) oneday_name,
+		(select onedaytime_date from tb_onedayclasstime where res.ONEDAYTIME_NO = ONEDAYTIME_NO) onedaytime_date,
+        personnel,
+		RES_PRICE,
+		CANCEL_CHECK,
+		(select oneday_price from tb_onedayclass where res.onedayclass_no = onedayclass_no) price
+	from
+    		tb_reservation res
+   <where>
+		<if test="value != null">
+			res.member_id = #{reserMemberId}
+		</if>
+	</where>
+</select>
+	
+<select id="selectOne" resultType="Oneday">
+select * from
+tb_onedayclass
+where onedayclass_no = #{onedayclassNo}
+</select>
+
+
+<select id="onedayselect" resultType="Oneday">
+select*from
+tb_onedayclass
+order by onedayclass_no desc
+
+</select>
+
+<select id="reviewAll" resultType="OnedayReview">
+
+select*from
+tb_oneday_review
+order by review_no desc
+
+</select>
+
+
+<select id="selectAll" resultType="Oneday">
+select*from
+tb_onedayclass
+order by onedayclass_no desc
+</select>
+
+<select id="popList" resultType="Oneday">
+select * from tb_onedayclass odn left join 
+(select avg(review_score) review_score, onedayclass_no from tb_oneday_review  
+group by onedayclass_no) ocn 
+on  odn.onedayclass_no = ocn.onedayclass_no
+order by review_score
+</select>
+
+
+
+
+
+
+<select id="selectOnedayReviewList" resultType="onedayReview">
+	select
+		*
+	from
+		tb_oneday_review 
+	order by 
+		review_no desc
+</select>
+<insert id="insertOneday">
+	insert into 
+	tb_onedayclass 
+		values (
+				seq_oneday_class.nextval,
+				#{memberId},
+				#{onedayName},
+				#{onedayPrice},
+				#{onedayContent},
+				#{latitude},
+				#{longitude},
+				#{detailedAddr},
+				#{onedayTime},
+				#{onedayMaxper},
+				#{onedayMinper},
+				#{onedayImg},
+				<!-- gson 배열로 받음 -->
+				#{menuList},
+				#{addr}
+			)
+			<selectKey keyProperty="onedayclassNo" resultType="_int" order="AFTER">
+				select seq_oneday_class.currval from dual
+			</selectKey>			
+</insert>
+
+<insert id="insertTime">
+	insert into
+		tb_onedayclasstime
+			values(
+				seq_oneday_time.nextval,
+				#{onedayNoo},
+				to_date(#{onedayTimeDate},'YYYY/MM/DD HH24:Mi')
+			)
+</insert>
+
+<insert id="insertReservation">
+	insert into
+		tb_reservation 
+			values(
+				seq_reservation.nextval,
+				#{memberId},
+				#{onedaytimeNo},
+				#{onedayclassNo},
+				default,
+				#{personnel},
+				default,
+				#{resPrice}
+		)
+		<selectKey keyProperty="reservationNo" resultType="_int" order="AFTER">
+				select seq_reservation.currval from dual
+		</selectKey>
+</insert>
+
+
+<select id="onedaySearch"  resultType="Oneday">
+select *
+from
+TB_onedayclass
+<where>
+<if test="menuList != ''">
+and menu_list like '%${menuList}%'
+</if>
+<if test="detailedAddr != ''">
+and detailed_Addr like '%'||#{detailedAddr}||'%'
+</if>
+<if test="onedayName != ''">
+and oneday_name like '%'||#{onedayName}||'%'
+</if>
+<if test="onedayTimeDate != ''">
+and onedayclass_no in 
+(select onedayclass_no from tb_onedayclasstime where onedaytime_date = to_date(#{onedayTimeDate},'yyyy/mm/dd'))
+</if>
+</where>
+order by onedayclass_no desc
+</select>
+
+
+
+
+<select id="selectTimeList" resultMap="timeCollection">
+	select onedaytime_no, 
+		   onedayclass_no, 
+		   to_char(onedaytime_date,'YYYY/MM/DD HH24:Mi') as time
+	from tb_onedayclasstime
+	where onedayclass_no = #{onedayclassNo}
+</select>
+
+
+<resultMap type="OnedayTime" id="timeCollection">
+	<result column="onedayclass_no" property="onedayNoo"/>
+	<result column="time" property="onedayTimeDate"/>
+</resultMap>
+
+
+
+<delete id="deleteOneday">
+	delete from
+	tb_onedayclass
+	where
+		onedayclass_no = #{onedayclassNo}
+</delete>
+
+
+<update id="classUpdate">
+	update
+	tb_onedayclass
+	set
+	oneday_name = #{onedayName},
+	oneday_price = #{onedayPrice},
+	oneday_content = #{onedayContent},
+	Latitude = #{latitude},
+	longitude = #{longitude},
+	Addr = #{Addr},
+	detailed_addr = #{detailedAddr},
+	oneday_time = #{onedayTime},
+	oneday_maxper = #{onedayMaxper},
+	oneday_minper = #{onedayMinper},
+	oneday_img = #{onedayImg},
+	menu_list = #{menuList}
+	
+	where onedayclass_No = #{onedayclassNo}
+</update>
+
+<insert id="insertReview">
+insert into 
+tb_oneday_review
+values(
+	seq_review.nextval,
+	#{memberId},
+	#{onedayclassNo},
+	#{reviewContent},
+	#{reviewImg},
+	sysdate,
+	#{reviewScore},
+	#{reviewTitle}
+)
+</insert>
+
+<select id="selectReviewList" resultType="OnedayReview">
+	select*from 
+		tb_oneday_review
+		where onedayclass_No = #{onedayclassNo}
+</select>
+
+<!-- 셰프 자신의 클래스 예약 현황 확인  -->
+<select id="selectOnedayclassListCnt" resultType="String">
+	select
+		count(*)
+	from
+		TB_onedayclass
+</select>
+
+<select id="selectAllReservationList" resultMap="ReservationListMap">
+	select
+		od.oneday_name,
+		odct.ONEDAYTIME_DATE, 
+		res.PERSONNEL, 
+		res.cancel_check, 
+		res.regdate,
+		od.oneday_price*res.personnel,
+		od.oneday_price
+	from
+		tb_onedayclass od left join tb_onedayclasstime odct on od.onedayclass_no = odct.onedayclass_no
+                          left join tb_reservation res on odct.onedayclass_no = res.onedayclass_no
+	where
+		od.member_id = #{memberId}
+</select>
+
+<resultMap id="ReservationListMap" type="ReservationRequest">
+	<result column="oneday_name" property="onedayClassName"/>
+	<result column="onedaytime_date" property="regDate"/>
+	<result column="PERSONNEL" property="personnel"/>
+	<result column="cancel_check" property="cancel"/>
+	<result column="od.oneday_price*res.personnel" property="totalPrice"/>
+	<result column="oneday_price" property="price"/>
+</resultMap>
+
+	<!-- 결제관련 작업부 시작 -->
+	
+	<select id="selectOnedayOne" resultType="OnedayTime">
+		select * from tb_onedayclasstime where onedaytime_no = #{onedayTimeNo}
+	</select>
+	
+	
+	<select id="checkVacancy" parameterType="_int" resultType="_int">
+		select nvl(sum(personnel), 0) from tb_reservation where onedayclass_no = #{onedayNo} and onedaytime_no = #{onedaytimeNo}
+	
+	</select>
+	
+	<!-- 결제관련 작업부 종료 -->
+
+
+
+
+</mapper>

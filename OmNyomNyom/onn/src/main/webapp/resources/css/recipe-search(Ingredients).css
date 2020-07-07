@@ -1,0 +1,213 @@
+@charset "UTF-8";
+@import url("https://fonts.googleapis.com/css?family=Open+Sans:400,400i,600,600i,700,700i|Playfair+Display:400,400i,700,700i&display=swap");
+@import url("https://fonts.googleapis.com/icon?family=Material+Icons");
+
+.videoTitle{
+	font-size: 1em;
+	font-weight: bold;
+}
+.Ylist p{
+	text-overflow: ellipsis;
+	min-height: 40px;
+    max-height: 50px;
+}
+
+.chef-Thumbnail-Title{
+	font-weight: bold;
+	font-size: 1em;
+}
+
+.chef_list{
+	padding: 20px;
+}
+
+.forTitle>p{
+	text-overflow: ellipsis;
+	overflow: hidden;
+	white-space: nowrap;
+	width: 200px;
+	height: 30px;
+}
+
+.btn-section{	
+	border-bottom: 20px;	
+}	
+.spad {	
+    padding-top: 20px;	
+}
+
+.major li {
+	border: black solid 1px;
+}
+
+.major, .sub {
+	display: inline-block;
+}
+
+.selected-container {
+	border-radius: 0 18px 18px 0;
+	background-color: rgba(205, 92, 92, 0.2);
+}
+
+.category-container, .sub, .row {
+	border: blueviolet;
+	border-radius: 20px;
+}
+
+.sub-container {
+	border: indianred solid 5px;
+	border-radius: 20px;
+	min-height: 420px;	
+}
+
+.large-ctg-box {
+	border: black solid 1px;
+	display: inline-block;
+}
+
+.selected-ingredients {
+	margin-top: 15px;
+	min-height: 75%;}
+
+/* 메인 카테고리 관련 */
+.main-ctg-menu {
+	list-style: none;
+	text-align: center;
+	padding-top: 15px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) , only screen
+		and (min-width: 576px) and (max-width: 767px) , ( max-width : 576px) {
+	.main-ctg-menu {
+		display: none;
+	}
+}
+
+.main-ctg-menu li {
+	display: inline-block;
+	margin-right: 50px;
+	position: relative;
+}
+
+.main-ctg-menu li>p:hover {
+	color: rgba(205, 92, 92, 0.753);
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+	.main-ctg-menu li {
+		margin-right: 15px;
+	}
+}
+
+.main-ctg-menu li:last-child {
+	margin-right: 0;
+}
+
+.main-ctg-menu li>p {
+	display: block;
+	padding-bottom: 5px;
+	font-size: 15px;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: gray;
+}
+
+.main-ctg-menu li>p.active {
+	color: indianred;
+}
+
+/* 서브 카테고리 관련 */
+.sub-ctg-menu {
+	list-style: none;
+	text-align: center;
+	padding-top: 15px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) , only screen
+		and (min-width: 576px) and (max-width: 767px) , ( max-width : 576px) {
+	.sub-ctg-menu {
+		display: none;
+	}
+}
+
+.sub-ctg-menu li {
+	display: inline-block;
+	margin-right: 50px;
+	position: relative;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+	.sub-ctg-menu li {
+		margin-right: 15px;
+	}
+}
+
+.sub-ctg-menu li:last-child {
+	margin-right: 0;
+}
+
+.sub-ctg-menu li>p {
+	display: block;
+	padding-bottom: 5px;
+	font-size: 14px;
+	font-weight: 600;
+	text-transform: uppercase;
+	color: gray;
+}
+
+.sub-ctg-menu li>p.active {
+	border-bottom: 3px solid indianred;
+}
+
+.sub-ctg-menu li>p:hover {
+	border-bottom: 3px solid rgba(205, 92, 92, 0.753);
+}
+
+/* 이미지 태그 관련 */
+.ingredimg {
+	border-radius: 50%;
+	width: 100px;
+	height: 100px;
+}
+
+.ingredimg:hover {
+	box-shadow: 0px 0px 0px 3px rgba(255, 123, 123, 0.465);
+}
+
+.ingredimg.active {
+	box-shadow: 0px 0px 0px 3px indianred;
+}
+
+/* 재료각각영역텍스트 */
+.inner {
+	padding-top: 15px;
+	text-align: center;
+}
+
+/* 선택된 재료 관련 */
+.giving-spaces {
+	margin-top: 10px;
+	color: crimson;
+}
+
+.selected-ingredients>p {
+	display: inline-block;
+	padding: 3px;
+}
+
+.ing-paging {
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+.btnforseach {
+	margin: auto;
+	border-radius: 10px;
+	border: 1px solid indianred;
+	background-color: indianred;
+	color: white;
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-weight: 600;
+	font-size: 14px;
+}

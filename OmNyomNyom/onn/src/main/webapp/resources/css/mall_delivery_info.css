@@ -1,0 +1,895 @@
+/*
+
+Template 2095 Level
+
+http://www.tooplate.com/view/2095-level
+
+*/
+
+a,
+button {
+    transition: all 0.3s ease;
+}
+
+a:hover,
+a:focus {
+    text-decoration: none;
+    outline: none;
+}
+
+article {
+    background-color: white;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.tm-position-relative {
+    position: relative;
+}
+
+.tm-flex-align-center {
+    align-items: center;
+}
+
+.tm-fa-6x {
+    font-size: 6em;
+}
+
+.tm-margin-b-0 {
+    margin-bottom: 0;
+}
+
+.tm-margin-b-20 {
+    margin-bottom: 20px;
+}
+
+.tm-p-4 {
+    padding: 2rem!important;
+}
+
+.tm-color-white {
+    color: white;
+}
+
+.tm-bg-primary {
+    background: #ee5057;
+}
+
+.tm-bg-gray {
+    background: #F4F4F4;
+}
+
+.tm-bg-white {
+    background: white;
+}
+
+.tm-bg-dark-blue {
+    background: #1f3646;
+}
+
+.tm-bg-blue {
+    color: #4c72fc;
+}
+
+.tm-bg-white-shadow {
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(214, 214, 214, 1);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(214, 214, 214, 1);
+    box-shadow: 0px 0px 7px 0px rgba(214, 214, 214, 1);
+}
+
+.tm-section-pad {
+    padding: 30px 50px;
+}
+
+.tm-section-pad-2 {
+    padding: 30px 40px;
+}
+
+.tm-article-pad {
+    padding: 28px;
+}
+
+.tm-sidebar-pad {
+    padding: 15px 20px;
+}
+
+.tm-sidebar-pad-2 {
+    padding: 21px 20px;
+}
+
+.tm-pad {
+    padding: 20px;
+}
+
+.tm-font-light {
+    font-weight: 300;
+}
+
+.tm-font-normal {
+    font-weight: 400;
+}
+
+.tm-font-semibold {
+    font-weight: 600;
+}
+
+p {
+    color: #898989;
+    line-height: 1.9;
+}
+
+.agree {
+    font-size: 14px;
+}
+
+.service-sub h6 {
+    color: #898989;
+}
+
+.tm-form-element-icon {
+    color: #ee5057;
+    position: absolute;
+    top: 10px;
+    left: 15px;
+}
+
+.tm-form-element-icon-small {
+    top: 16px;
+    left: 18px;
+}
+
+select:not([multiple]) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-position: right 50%;
+    background-repeat: no-repeat;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAA4AAAAMCAYAAABSgIzaAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyJpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBNYWNpbnRvc2giIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6NDZFNDEwNjlGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6NDZFNDEwNkFGNzFEMTFFMkJEQ0VDRTM1N0RCMzMyMkIiPiA8eG1wTU06RGVyaXZlZEZyb20gc3RSZWY6aW5zdGFuY2VJRD0ieG1wLmlpZDo0NkU0MTA2N0Y3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIgc3RSZWY6ZG9jdW1lbnRJRD0ieG1wLmRpZDo0NkU0MTA2OEY3MUQxMUUyQkRDRUNFMzU3REIzMzIyQiIvPiA8L3JkZjpEZXNjcmlwdGlvbj4gPC9yZGY6UkRGPiA8L3g6eG1wbWV0YT4gPD94cGFja2V0IGVuZD0iciI/PuGsgwQAAAA5SURBVHjaYvz//z8DOYCJgUxAf42MQIzTk0D/M+KzkRGPoQSdykiKJrBGpOhgJFYTWNEIiEeAAAMAzNENEOH+do8AAAAASUVORK5CYII=);
+    padding: .5em;
+    padding-right: 1.5em
+}
+
+
+/* https://stackoverflow.com/questions/20163079/remove-select-arrow-on-ie */
+
+select.tm-select::-ms-expand {
+    display: none;
+}
+
+.tm-select {
+    border-radius: 0;
+    color: #858789;
+}
+
+.tm-search-form .tm-form-element {
+    width: 33.3333%;
+}
+
+.tm-search-form .tm-form-element-2 {
+    width: 25%;
+}
+
+.tm-search-form-row {
+    width: 900px;
+}
+
+.tm-btn-search {
+    width: 100%;
+}
+
+
+/* https://css-tricks.com/creating-non-rectangular-headers/ */
+
+.tm-section-down-arrow {
+    position: absolute;
+    top: -1px;
+    width: 100%;
+    height: 100px;
+}
+
+.tm-pt-5 {
+    padding-top: 150px;
+}
+
+.tm-pb-4 {
+    padding-bottom: 100px;
+}
+
+.tm-section-2 {
+    background: #4949e7;
+    padding-top: 50px;
+    position: relative;
+}
+
+.corseTitle {
+    font-weight: 600;
+    font-size: 2em;
+    color: #262626;
+}
+
+.box_subtitle {
+    font-size: 12px;
+}
+
+.tm-section-title {
+    color: white;
+    font-size: 3rem;
+}
+
+.tm-section-title-2 {
+    font-size: 3.2rem;
+    font-weight: 600;
+}
+
+.tm-btn-white-bordered {
+    display: inline-block;
+    background-color: #4949e7;
+    border: 2px solid #4949e7;
+    padding: 5px;
+    color: white;
+}
+
+.tourspot {
+    text-align: left;
+    color: #262626;
+}
+
+.tm-article {
+    padding: 25px 33px;
+    transition: all 0.3s ease;
+    margin-left: 2px;
+}
+
+.tm-article:hover {
+    -webkit-box-shadow: 0px 0px 7px 0px rgba(214, 214, 214, 1);
+    -moz-box-shadow: 0px 0px 7px 0px rgba(214, 214, 214, 1);
+    box-shadow: 0px 0px 7px 0px rgba(214, 214, 214, 1);
+    transform: scale(1);
+}
+
+.tm-article-title-1 {
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 0px 0px 20px 10px;
+}
+
+.tourInfo {
+    font-size: 14px;
+}
+
+.tourImg {
+    width: 230px;
+}
+
+
+/* 회차/시간선택 css*/
+
+.tbl {
+    text-align: center;
+}
+
+th {
+    font-size: 12px;
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    /* background-color:#4c72fc; */
+    color: BLACK;
+    border-bottom: 1px solid black;
+}
+
+td {
+    font-size: 13px;
+    height: 30px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+/* 회차 시간선택*/
+
+#time-table th {
+    font-size: 12px;
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    /* background-color:#4c72fc; */
+    color: BLACK;
+    border-bottom: 1px solid black;
+}
+
+#time-table td {
+    font-size: 13px;
+    height: 30px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+
+/*회차시간선택 끝*/
+
+
+/* 인원선택*/
+
+#amount-table th {
+    font-size: 12px;
+    width: 70px;
+    height: 30px;
+    text-align: center;
+    /* background-color:#4c72fc; */
+    color: BLACK;
+    border-bottom: 1px solid black;
+}
+
+#amount-table td {
+    font-size: 13px;
+    height: 30px;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    border-bottom: 1px solid black;
+}
+
+
+/*회차시간선택 끝*/
+
+.td-white-back {
+    background: white;
+}
+
+
+/*인원수 카운 */
+
+.input-number {
+    width: 20px;
+}
+
+
+/* 결제수단 css */
+
+.pay-btn {
+    width: 100px;
+    height: 25px;
+    border-radius: 10px;
+    vertical-align: middle;
+    color: black;
+    border: none;
+    font-weight: 400;
+    margin: 5px;
+}
+
+.pay-btn:hover {
+    background-color: #4949e7;
+    color: white;
+}
+
+.pay-btn:focus {
+    outline: none;
+}
+
+
+/*  카드사 선*/
+
+.card-val {
+    width: 100px;
+    height: 40px;
+    border-radius: 10px;
+    background-color: white;
+    border: none;
+}
+
+
+/* 결제상품 목록 css  */
+
+.ticket-tbl {
+    box-shadow: 0px 0px 7px 0px rgba(214, 214, 214, 1);
+    margin-bottom: 15px;
+}
+
+
+/* 맞춤서비스 서브메 */
+
+.wizard {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #ffffff;
+}
+
+.wizard a {
+    padding: 10px 12px 10px;
+    margin-right: 5px;
+    background: #7a7a7a;
+    position: relative;
+    display: inline-block;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.wizard a:before {
+    width: 0;
+    height: 0;
+    border-top: 25px inset transparent;
+    border-bottom: 25px inset transparent;
+    border-left: 25px solid #ffffff;
+    position: absolute;
+    content: "";
+    top: 0;
+    left: 0;
+}
+
+.wizard a:after {
+    width: 0;
+    height: 0;
+    border-top: 25px inset transparent;
+    border-bottom: 25px inset transparent;
+    border-left: 25px solid #7a7a7a;
+    position: absolute;
+    content: "";
+    top: 0;
+    right: -25px;
+    z-index: 2;
+}
+
+.wizard a:first-child:before,
+.wizard a:last-child:after {
+    border: none;
+}
+
+.wizard a:first-child {
+    -webkit-border-radius: 4px 0 0 4px;
+    -moz-border-radius: 4px 0 0 4px;
+    border-radius: 4px 0 0 4px;
+}
+
+.wizard a:last-child {
+    -webkit-border-radius: 0 4px 4px 0;
+    -moz-border-radius: 0 4px 4px 0;
+    border-radius: 0 4px 4px 0;
+}
+
+.wizard .badge {
+    margin: 0 5px 0 18px;
+    position: relative;
+    color: #ffffff;
+    font-size: 20px
+}
+
+. .wizard .badge_ span {
+    color: #898989;
+}
+
+.wizard a:first-child .badge {
+    margin-left: 0;
+}
+
+.wizard .current {
+    background: #4949e7;
+}
+
+.wizard .current:after {
+    border-left-color: #4949e7;
+}
+
+
+/* 티켓 css */
+
+.ticket {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: center;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 700px;
+    margin: 20px auto;
+}
+
+.ticket .stub,
+.ticket .check {
+    box-sizing: border-box;
+}
+
+.stub {
+    background: #5555e6;
+    height: 250px;
+    width: 250px;
+    color: white;
+    padding: 20px;
+    position: relative;
+}
+
+.stub:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-top: 20px solid #4949e7;
+    border-left: 20px solid #5555e6;
+    width: 0;
+}
+
+.stub:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border-bottom: 20px solid #4949e7;
+    border-left: 20px solid #5555e6;
+    width: 0;
+}
+
+.stub .top {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-align: center;
+    align-items: center;
+    height: 40px;
+    text-transform: uppercase;
+}
+
+.stub .top .line {
+    display: block;
+    background: #fff;
+    height: 20px;
+    width: 1px;
+    margin: 0 20px;
+}
+
+.stub .top .num {
+    font-size: 10px;
+}
+
+.stub .top .num span {
+    color: #000;
+}
+
+.stub .number {
+    position: absolute;
+    left: 40px;
+    top: 120px;
+    font-size: 100px;
+    color: white;
+}
+
+.stub .invite {
+    position: absolute;
+    left: 100px;
+    bottom: 45px;
+    color: white;
+    text-align: left;
+    top: 205px;
+    width: 120px;
+}
+
+.stub .invite:before {
+    content: '';
+    background: #fff;
+    display: block;
+    width: 40px;
+    height: 1.5px;
+    margin-bottom: 5px;
+}
+
+.check {
+    background: #fbfbfb;
+    height: 250px;
+    width: 450px;
+    padding: 40px;
+    position: relative;
+}
+
+.check:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-top: 20px solid #4949e7;
+    border-right: 20px solid #fff;
+    width: 0;
+}
+
+.check:after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border-bottom: 20px solid #4949e7;
+    border-right: 20px solid #fff;
+    width: 0;
+}
+
+.check .big {
+    font-size: 40px;
+    font-weight: 900;
+    line-height: 0.8em;
+    margin-top: 50px;
+    text-align: left;
+}
+
+.check .number {
+    position: absolute;
+    top: 50px;
+    right: 50px;
+    color: #4949e7;
+    font-size: 40px;
+}
+
+.check .info {
+    display: -webkit-box;
+    display: flex;
+    -webkit-box-pack: start;
+    justify-content: flex-start;
+    font-size: 12px;
+    margin-top: 45px;
+    width: 100%;
+}
+
+.check .info section {
+    margin-right: 50px;
+}
+
+.check .info section:before {
+    content: '';
+    background: #dad7d7;
+    display: block;
+    width: 40px;
+    height: 3px;
+    margin: auto;
+    margin-bottom: 5px;
+}
+
+.check .info section .title {
+    width: 100px;
+    font-size: 15px;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.admit,
+.num {
+    color: white;
+}
+
+
+/* insert css*/
+
+.input {
+    position: relative;
+    z-index: 1;
+    display: inline-block;
+    margin: 25px 0;
+    /* max-width: 350px; */
+    /* width: calc(100% - 2em); */
+    width: 100%;
+    vertical-align: top;
+}
+
+.input__field {
+    position: relative;
+    display: block;
+    float: right;
+    padding: 0.8em;
+    width: 60%;
+    border: none;
+    border-radius: 0;
+    background: #f0f0f0;
+    color: #aaa;
+    font-weight: 400;
+    font-family: "Avenir Next", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-appearance: none;
+    /* for box shadows to show on iOS */
+}
+
+.input__field:focus {
+    outline: none;
+}
+
+.input__label {
+    display: inline-block;
+    float: right;
+    padding: 0 1em;
+    width: 40%;
+    color: #696969;
+  
+    /* font-size: 70.25%; */
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.input__label-content {
+    position: relative;
+    display: block;
+    padding: 1.6em 0;
+    margin-bottom: 0;
+    width: 100%;
+}
+
+.graphic {
+    position: absolute;
+    top: 0;
+    left: 0;
+    fill: none;
+}
+
+.icon {
+    color: #ddd;
+    font-size: 150%;
+}
+
+
+/*  */
+
+.input__field--yoshiko {
+    width: 100%;
+    background-color: #d0d1d0;
+    border: 2px solid transparent;
+    -webkit-transition: background-color 0.25s, border-color 0.25s;
+    transition: background-color 0.25s, border-color 0.25s;
+}
+
+.input__label--yoshiko {
+    width: 100%;
+    text-align: left;
+    position: absolute;
+    bottom: 100%;
+    pointer-events: none;
+    overflow: hidden;
+    padding: 0 1.25em;
+    -webkit-transform: translate3d(0, 3em, 0);
+    transform: translate3d(0, 3em, 0);
+    -webkit-transition: -webkit-transform 0.25s;
+    transition: transform 0.25s;
+    -webkit-transition-timing-function: ease-in-out;
+    transition-timing-function: ease-in-out;
+}
+
+.input__label-content--yoshiko {
+    color: #8B8C8B;
+    padding: 0.25em 0;
+    -webkit-transition: -webkit-transform 0.25s;
+    transition: transform 0.25s;
+    -webkit-transition-timing-function: ease-in-out;
+    transition-timing-function: ease-in-out;
+}
+
+.input__label-content--yoshiko::after {
+    content: attr(data-content);
+    position: absolute;
+    font-weight: 800;
+    bottom: 100%;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    color: #4949E7;
+    /* padding: 0.25em 0; */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    /* font-size: 0.85em; */
+}
+
+.input__field--yoshiko:focus+.input__label--yoshiko,
+.input--filled .input__label--yoshiko {
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    margin-bottom: 0;
+}
+
+.input__field--yoshiko:focus+.input__label--yoshiko .input__label-content--yoshiko,
+.input--filled .input__label-content--yoshiko {
+    -webkit-transform: translate3d(0, 100%, 0);
+    transform: translate3d(0, 100%, 0);
+}
+
+.input__field--yoshiko:focus+.input__field--yoshiko,
+.input--filled .input__field--yoshiko {
+    background-color: transparent;
+    border-color: #4949E7;
+}
+#total_price{
+	font-weight: bold;
+	font-size: 28px;
+	line-height: 30px;
+	letter-spacing: -0.5px;
+	word-break: break-all;
+	color: #4949E7;
+}
+
+
+/* insert end */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.p-img{
+	border-radius: 50%;
+}
+#total_price{
+    font-weight: bold;
+    font-size: 28px;
+    line-height: 30px;
+    letter-spacing: -0.5px;
+    word-break: break-all;
+    color: #4949e7;
+}
+.basket {
+	width: 1000px;
+}
+.order {
+	text-align: right;
+}
+.inner-col>input {
+	width: 35px;
+}
+.title, .ckbox {
+	text-align: center;
+}
+.inner-col {
+	height: 50%;
+	padding: 15px 5px 15px 5px;
+	vertical-align: middle;
+}
+.pline {
+	border-bottom: 2px solid rgba(73, 73, 231, 0.459);
+}
+.p-img {
+	resize: both;
+	max-width: 98.5px;
+	height: auto;
+	border-radius: 50%;
+	margin-top: 5px;
+	box-shadow: 0px 0px 0px 3px rgba(73, 73, 231, 0.432);
+}
+.p-name {
+	font-weight: 600;
+	font-size: 16px;
+}
+.p-info {
+	font-size: 12px
+}
+/* 전체상품가격 영역 */
+.lline {
+	border-top: 3px solid rgb(122, 122, 122);
+	border-bottom: 3px solid rgb(122, 122, 122);
+	margin-top: 5px;
+	padding: 20px 10px 20px 10px;
+}
+.md-total-price, .ckbox {
+	padding: 50px 0 50px 0;
+	text-align: center;
+}
+.total-price {
+	font-size: 16px;
+	font-weight: 700;
+	padding-top: 5px;
+}
+/* ? */
+.floatRight span {
+	float: right;
+}
+.th_border {
+	border-bottom: 1px solid black;
+}
+.font-17 {
+	font-size: 17px;
+}
+.nav_text {
+	font-weight: 600;
+	color: hsl(0, 0%, 69%);
+}
+.selected_nav {
+	color: #355752;
+}
+.section {
+	padding-top: 150px;
+}
+.border_bottom {
+	border-bottom: 2px solid black;
+}

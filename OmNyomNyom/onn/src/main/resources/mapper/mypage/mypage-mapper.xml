@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="mypage">
+
+<select id="selectScrapList" resultType="scrap">
+	select
+		*
+	from
+		tb_scrap s join tb_recipe r
+			on s.recipe_no = r.recipe_no
+	where
+		member_id = #{memberId}
+</select>
+
+<resultMap id="scrapMap" type="scrap">
+	<result column="member_id" property="scrapId"/>
+
+</resultMap>
+
+<delete id="deleteScrap">
+	delete
+	 from
+		tb_scrap
+	where
+		recipe_no = #{recipeNo}
+			AND
+		member_id = #{memberId}
+</delete>
+
+<update id="updateScrap">
+	update
+		tb_scrap
+	set
+		memo = #{meMo}
+	where
+		recipe_no = #{recipeNo}
+		AND
+		member_id = #{scrapId}
+
+</update>
+
+<update id="dingdongUpdate">
+	update
+		tb_dingdong
+	set
+		dingdong_read  = 0
+	where 
+		dingdong_no = #{dingdongNo}
+</update>
+
+<select id="selectDingList" resultMap="dingMap">
+	select
+		*
+	from
+		tb_dingdong
+	<where>
+		<if test="memberId != null">
+		And member_id = #{memberId}
+		</if>
+
+		<if test="Read != null">
+		And DINGDONG_READ = #{Read}
+
+		</if>
+	</where> 
+</select>
+
+<resultMap id="dingMap" type="dingdong">
+	<result column="member_id" property="dingMemberId"/>
+	<result column="regdate" property="dingRegDate"/>
+</resultMap>
+
+
+	<insert id="insertPayDing">
+		insert into tb_dingdong 
+			values(seq_dingdong.nextval, #{dingMemberId}, #{dingdongContent}, #{dingdongLink},
+					default, default)
+					
+			<selectKey keyProperty="dingdongNo" resultType="_int" order="AFTER">
+				select seq_dingdong.currval from dual
+			</selectKey>		
+	</insert>
+
+</mapper>

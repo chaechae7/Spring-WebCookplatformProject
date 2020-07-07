@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="chat">
+
+<select id="findChatIdByMemberId" resultType="string">
+	select 
+        chat_id 
+	from 
+	    chat_view
+	where
+	    cr_enabled = 'Y'
+	  and 
+	    cm_enabled = 'Y'
+      and
+        member_id = #{memberId}
+      and
+        chat_id in (select 
+				        chat_id 
+				    from 
+					    chat_view
+				    where
+					    cr_enabled = 'Y'
+					  and 
+					    cm_enabled = 'Y'
+				      and
+				        member_id = #{getter})
+	  
+</select>
+
+<select id="selectOneChatId" resultType="string">
+	select 
+		chat_id
+	from
+		chat_view
+	where
+		chat_id = #{chatId}
+</select>
+
+<insert id="insertChatRoom">
+	insert into
+	    chat_room 
+	        (id, chat_id)
+	values(
+	    seq_chat.nextval, 
+	    #{chatId}
+	)
+	<selectKey order="AFTER" keyProperty="id" resultType="_long">
+		select 
+			seq_chat.currval
+		from
+			dual
+	</selectKey>
+</insert>
+
+<insert id="insertChatMember">
+	insert into
+	    chat_member
+	        (id, chat_room_id, member_id)
+	
+	values(
+	    seq_chat.nextval,
+	    #{chatRoom.id},
+	    #{memberId}
+	)
+</insert>
+
+<insert id="insertChatLog">
+	insert into 
+	    chat_log 
+	        (id, chat_room_id, member_id, msg, time)
+	values(
+	    seq_chat.nextval, 
+		(select id from chat_room where chat_id = #{chatId}), 
+		#{memberId}, 
+		#{msg}, 
+		#{time}
+	)
+</insert>
+
+<select id="findRecentList" resultType="msg">
+	select 
+		chat_id, 
+		member_id, 
+		(select member_nick from tb_member where member_id = cv.member_id) member_nick,
+		(select CHEF_PROFILE from tb_chef where member_id = cv.member_id) prev_img, 
+		last_check time
+    from 
+    	chat_view cv
+    where 
+    	member_id != #{memberId} 
+    	and 
+    	chat_id in (select chat_id from chat_view where member_id = #{memberId})
+    order by
+        cr_id desc
+    
+</select>
+
+<select id="findChatListByChatId" resultType="msg">
+	select 
+	    cl.* ,
+	    (select CHEF_PROFILE from TB_CHEF where cl.MEMBER_ID = MEMBER_ID) prev_img,
+	    (select MEMBER_NICK from TB_MEMBER where cl.MEMBER_ID = MEMBER_ID) member_nick
+	from 
+	    chat_log cl
+	where 
+	    chat_room_id = (select id from chat_room where chat_id = #{chatId})
+	order by 
+	    id
+</select>
+
+
+<update id="updateLastCheck">
+	update 
+	    chat_member
+	set 
+	    last_check =  #{time}
+	where 
+	    chat_room_id = (select id from chat_room where chat_id = #{chatId})
+	  and 
+	    member_id = #{memberId}
+</update>
+
+<update id="deleteChatRoom">
+	UPDATE 
+		CHATROOM 
+	SET 
+		STATUS = 'N', 
+		ENDDATE = SYSDATE
+	WHERE 
+		CHATID = #{chatId}
+</update>
+</mapper>

@@ -1,0 +1,150 @@
+.float-right * {
+    float: right;
+}
+
+.agree {
+    margin: auto;
+    border-radius: 10px;
+    border: 1px solid indianred;
+    background-color: indianred;
+    color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.count-menu-bar {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.input_num {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+.input_num input {
+    width: 60px;
+}
+
+.p-m-icon>input {
+    width: 35px;
+}
+
+.inner-col {
+    padding: 30px 5px;
+}
+
+.margin-bottong {
+    margin-bottom: 10px;
+}
+
+.sel_img {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.p-m-icon img {
+    width: 20px;
+}
+/* 메인 카테고리 관련 */
+
+.main-ctg-menu {
+    list-style: none;
+    text-align: center;
+    padding-top: 15px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px),
+only screen and (min-width: 576px) and (max-width: 767px),
+(max-width: 576px) {
+    .main-ctg-menu {
+        display: none;
+    }
+}
+
+.main-ctg-menu li {
+    display: inline-block;
+    margin-right: 50px;
+    position: relative;
+}
+
+.main-ctg-menu li>p:hover {
+    color: rgba(205, 92, 92, 0.753);
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .main-ctg-menu li {
+        margin-right: 15px;
+    }
+}
+
+.main-ctg-menu li:last-child {
+    margin-right: 0;
+}
+
+.main-ctg-menu li>p {
+    display: block;
+    padding-bottom: 5px;
+    font-size: 15px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: gray;
+}
+
+.main-ctg-menu li>p.active {
+    color: indianred;
+}
+/* 서브 카테고리 관련 */
+
+.sub-ctg-menu {
+    list-style: none;
+    text-align: center;
+    padding-top: 15px;
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px),
+only screen and (min-width: 576px) and (max-width: 767px),
+(max-width: 576px) {
+    .sub-ctg-menu {
+        display: none;
+    }
+}
+
+.sub-ctg-menu li {
+    display: inline-block;
+    margin-right: 50px;
+    position: relative;
+}
+
+@media only screen and (min-width: 992px) and (max-width: 1200px) {
+    .sub-ctg-menu li {
+        margin-right: 15px;
+    }
+}
+
+.sub-ctg-menu li:last-child {
+    margin-right: 0;
+}
+
+.sub-ctg-menu li>p {
+    display: block;
+    padding-bottom: 5px;
+    font-size: 14px;
+    font-weight: 600;
+    text-transform: uppercase;
+    color: gray;
+}
+
+.sub-ctg-menu li>p.active {
+    border-bottom: 3px solid indianred;
+}
+
+.sub-ctg-menu li>p:hover {
+    border-bottom: 3px solid rgba(205, 92, 92, 0.753);
+}
+
+.border-rai{
+	border-radius: 50%;
+}

@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="recipe">
+
+	<select id="selectIngSubCtg" resultType="string">
+		select ing_cd_category  from (select * from tb_ingredient where ing_pr_category = #{mainCtg}) group by ing_cd_category order by ing_cd_category
+	</select>
+	
+	<select id="selectIngredients" resultType="Ingredient">
+		select * from tb_ingredient where ing_cd_category = #{subCtg}
+	</select>
+	
+	
+	<select id="selectIngredientsCnt" resultType="_int">
+		select count(*) from tb_ingredient where ing_cd_category = #{subCtg}
+	</select>
+  
+	
+	<select id="ingredientAjax" resultType="ingredient">
+		select *
+		from TB_Ingredient
+		where ingredient_name like '%'||#{ingr}||'%'
+	</select>
+	<insert id="recipeUpload" parameterType="recipe">
+		insert into 
+			TB_recipe
+		values(
+			seq_recipe.nextval,
+			#{videoTitle},
+			#{videoLink},
+			#{timeline},
+			#{menuName},
+			#{chefNick},
+			#{chefId},
+			#{cookingTime},
+			#{category},
+			#{recipeContent},
+			default,
+			default
+		)
+		<selectKey keyProperty="recipeNo" resultType="_int" order="AFTER">
+			select seq_recipe.currval from dual
+		</selectKey>
+	</insert>
+	<insert id="recipeIngrUpload" parameterType="recipeIngredient">
+		insert into
+			tb_rec_Ingredients
+		values(
+			#{recipeNo},
+			<choose>
+				<when test="ingredientNo!=0">
+					#{ingredientNo},
+				</when>
+				<when test="ingredientNo==0">
+					null,
+				</when>
+			</choose>
+			#{minWeight},
+			#{ingredientName}
+		)
+	</insert>
+	<select id="selectRecipeOne" resultType="recipe">
+		select 
+			*
+		from 
+			tb_recipe 
+		where 
+			recipe_no=#{recipeNo}
+	</select>
+	<select id="selectRecIngList" resultType="recipeIngredient">
+		select 
+			*
+		from
+			tb_rec_ingredients 
+		where 
+			recipe_no=#{recipeNo}
+	</select>
+	<select id="selectCategoryList" resultType="menuCategory">
+		select
+			*
+		from
+			TB_menu_category
+	</select>
+	<select id="selectLikeOne" resultType="like">
+		select
+			*
+		from
+			TB_like
+		where
+			recipe_no = #{recipeNo}
+			and
+			member_id = #{memberId}
+	</select>
+	<insert id="insertLike" parameterType="like">
+		insert into tb_like
+		values(
+    		#{memberId},
+    		#{recipeNo}
+		)
+	</insert>
+	<delete id="deleteLike">
+		delete from tb_like 
+		where 
+			member_id = #{memberId} 
+			and recipe_no = #{recipeNo}
+	</delete>
+	<select id="selectScrap" resultMap="scrapMap">
+		select s.*, r.chef_nick, r.video_title
+		from 
+    		TB_scrap s
+    		join tb_recipe r
+        		on s.recipe_no = r.recipe_no
+		where 
+			s.member_id = #{scrapId}
+			and 
+			s.recipe_no = #{recipeNo}
+	</select>
+	<insert id="insertScrap">
+		insert into TB_scrap
+		values(
+    		#{scrapId},
+    		#{recipeNo},
+    		default,
+    		#{meMo}
+		)
+	</insert>
+	<delete id="deleteScrap">
+		delete from TB_scrap 
+		where 
+			member_id = #{scrapId}
+			and 
+			recipe_no= #{recipeNo}
+	</delete>
+	<update id="increaseReadCount">
+		update tb_recipe 
+		set view_count = view_count +1 
+		where recipe_no = #{recipeNo}
+	</update>
+	<select id="selectIngrMallListIn" resultMap="ingrMallMap">
+		select 
+			M.* ,
+			I.eng_pr_category||'/'||I.eng_cd_category||'/'||I.ing_filename prev_img,
+			I.ingredient_name
+		from 
+			tb_Ingredient_mall M
+			Join tb_ingredient I
+				on M.ingredient_no = I.ingredient_no
+		where
+			M.ingredient_no in
+			<foreach collection="selectList" item="ingr" open="(" separator="," close=")">
+				#{ingr.ingredientNo}
+			</foreach>
+			
+	</select>
+	<select id="selectIngrMallListNotIn" resultMap="ingrMallMap">
+		select 
+			M.*,
+			I.eng_pr_category||'/'||I.eng_cd_category||'/'||I.ing_filename prev_img,
+			I.ingredient_name
+		from 
+			tb_Ingredient_mall M
+			Join tb_ingredient I
+				on M.ingredient_no = I.ingredient_no
+		<where>
+			<if test="selectList.size > 0">
+			M.ingredient_no not in
+			<foreach collection="selectList" item="ingr" open="(" separator="," close=")">
+				#{ingr.ingredientNo}
+			</foreach>
+			</if>
+		</where>
+		order by
+			M.stock desc
+	</select>
+	<select id="selectRelRecipeList" resultType="recipe">
+		select 
+			*
+		from 
+			tb_recipe 
+		where 
+			category = #{category}
+			and
+			recipe_no != #{recipeNo}
+		order by
+			view_count desc
+	</select>
+	
+	<select id="selectRelRecipeListPr" resultType="recipe">
+		select 
+			*
+		from 
+			tb_recipe 
+		where 
+			category = #{category}
+			and
+			recipe_no != #{recipeNo}
+			<if test="relRecipeList != null">
+				<if test="relRecipeList.size>0">
+				and recipe_no not in
+				<foreach collection="relRecipeList" item="relRecipe" open="(" separator="," close=")">
+					#{relRecipe.recipeNo}
+				</foreach>
+				</if>
+			</if>
+		order by
+			view_count desc
+	</select>
+	
+	<select id="selectRelRecipeListAll" resultType="recipe">
+		select 
+			*
+		from 
+			tb_recipe 
+		where
+			recipe_no != #{recipeNo}
+			<if test="relRecipeList != null">
+				<if test="relRecipeList.size>0">
+				and recipe_no not in
+				<foreach collection="relRecipeList" item="relRecipe" open="(" separator="," close=")">
+					#{relRecipe.recipeNo}
+				</foreach>
+				</if>
+			</if>
+		order by
+			view_count desc
+	</select>
+	
+	<!-- PJM Section -->
+	<select id="selectChefProfile" resultType="string">
+		select 
+			chef_profile
+		from
+	 		tb_chef 	
+		where member_id = #{chefId}
+	</select>
+	<select id="selectReplyList" resultType="recipeReply">
+		select
+			r.*,
+			m.member_nick
+		from
+			Tb_reply r
+			join tb_member m
+				on r.member_id = m.member_id
+		where
+			recipe_no = #{recipeNo}
+		order by
+			reply_no
+	</select>
+	<insert id="insertReply">
+		insert into Tb_reply
+		values (
+		    seq_reply.nextval,
+		    #{recipeNo},
+		    #{memberId},
+		    #{highRepNo},
+		    #{repContent},
+		    default
+		)
+	</insert>
+	<delete id="deleteReply">
+		delete from 
+			tb_reply
+		where 
+			reply_no = #{replyNo}
+			or
+			high_rep_no = #{replyNo}
+	</delete>
+	<select id="selectQuestionList" resultType="recipeQuestion">
+		select
+			q.*,
+			m.member_nick
+		from
+			Tb_RecipeQuestion q
+			join tb_member m
+				on q.member_id = m.member_id
+		where
+			recipe_no = #{recipeNo}
+		order by
+			question_no
+	</select>
+	<insert id="insertQuestion">
+		insert into Tb_RecipeQuestion
+		values (
+		    seq_question.nextval,
+		    #{recipeNo},
+		    #{memberId},
+		    #{highQuestionNo},
+		    #{questionContent},
+		    default
+		)
+	</insert>
+	<delete id="deleteQuestion">
+		delete from 
+			Tb_RecipeQuestion
+		where 
+			question_no = #{questionNo}
+			or
+			high_question_no = #{questionNo}
+	</delete>
+	<delete id="deleteRecipe">
+		delete from
+			tb_recipe
+		where
+			recipe_no = #{recipeNo}
+	</delete>
+	<update id="recipeUpdate">
+		update tb_recipe 
+		set
+		    video_title = #{videoTitle},
+		    timeline = #{timeline},
+    		menu_name = #{menuName},
+    		cooking_time = #{cookingTime},
+    		category = #{category},
+    		recipe_content = #{recipeContent}
+		where recipe_no = #{recipeNo}
+	</update>
+	<delete id="recipeIngrDelete">
+		delete from 
+			tb_rec_Ingredients
+		where
+			recipe_no = #{recipeNo}
+	</delete>
+	<insert id="insertDingDong">
+		insert into TB_dingdong
+		values(
+			seq_dingdong.nextval,
+			#{dingMemberId},
+			#{dingdongContent},
+			#{dingdongLink},
+			1,
+			default
+		)
+	</insert>
+	<delete id="deleteRecipeList">
+		delete from
+			tb_recipe
+		where
+			recipe_no in
+			<foreach collection="deleteList" item="recipeNo" open="(" separator="," close=")">
+				#{recipeNo}
+			</foreach>
+	</delete>
+	<!-- PJM section end  -->	
+	<select id="selectReport" resultMap="reportMap">
+		select
+			*
+		from
+			tb_report;
+	</select>
+	
+	<insert id="insertReport">
+		insert into
+			tb_report
+		values(
+			#{repMemberId},
+			#{replyNo},
+			default,
+			#{reportReason}
+		)
+	</insert>
+	
+	<resultMap type="scrap" id="scrapMap">
+		<result column="member_id" property="scrapId"/>
+		<result column="recipe_no" property="recipeNo"/>
+		<result column="regdate" property="regDate" javaType="java.sql.Date"/>
+		<result column="memo" property="meMo"/>
+		<result column="chef_nick" property="chefNick"/>
+		<result column="video_title" property="videoTitle"/>
+	</resultMap>
+	
+	<resultMap id="reportMap" type="report">
+		<result column="member_id" property="repMemberId"></result>
+	</resultMap>
+		
+	<resultMap type="ingredientMall" id="ingrMallMap">
+		<id column="ingredient_no" property="ingMallNo"/>
+		<result column="ingredient_name" property="ingMallName"/>
+		<result column="prev_img" property="prevImg"/>
+		<result column="price" property="price"/>
+		<result column="stock" property="stock"/>
+		<result column="min_unit" property="minUnit"/>
+		<result column="ing_origin" property="ingOrigin"/>
+		<result column="shelf_life" property="shelfLife"/>
+		<result column="ing_info" property="ingInfo"/>
+	</resultMap>
+	
+	<select id="recipeSerachByIng" resultType="recipeWithIngCnt">
+		    SELECT J.INCLUDE_NO, C.CHEF_PROFILE, R.* 
+		    	FROM TB_RECIPE R JOIN 
+		    		(SELECT COUNT(*) INCLUDE_NO, T.RECIPE_NO 
+		    			FROM (SELECT * FROM TB_REC_INGREDIENTS WHERE INGREDIENT_NO IN
+							<if test="ingNoArr != null">				
+							<foreach collection="ingNoArr" item="item" open="(" separator="," close=")">
+								#{item}
+							</foreach>
+							</if>
+							) T GROUP BY RECIPE_NO ORDER BY 1) J 
+                ON R.RECIPE_NO = J.RECIPE_NO
+                LEFT JOIN TB_CHEF C ON R.CHEF_ID = C.MEMBER_ID
+	</select>
+	
+	
+	<select id="selectPopRecipe" resultType="recipeWithIngCnt">
+		SELECT * FROM(
+			SELECT ROWNUM RNUM, P.* FROM (
+				SELECT R.*, C.CHEF_PROFILE FROM TB_RECIPE R LEFT JOIN TB_CHEF C ON R.CHEF_ID = C.MEMBER_ID ORDER BY VIEW_COUNT DESC) P
+			)WHERE RNUM &lt; 13
+	</select>
+	
+	<select id="selectPopIngredient" resultType="Ingredient">
+	SELECT * FROM 
+		(SELECT ROWNUM RNUM, I.* FROM TB_INGREDIENT I RIGHT JOIN 
+				(SELECT COUNT(*) CNT, INGREDIENT_NO FROM TB_REC_INGREDIENTS WHERE INGREDIENT_NO IS NOT NULL  GROUP BY INGREDIENT_NO  ORDER BY CNT DESC) P
+                    ON I.INGREDIENT_NO = P.INGREDIENT_NO
+                    <where>
+	                    <if test="subCtg != null">
+	                    AND ING_CD_CATEGORY = #{subCtg}  
+	                    </if>
+	                    <if test="mainCtg != null">
+	                    AND ING_PR_CATEGORY = #{mainCtg}  
+	                    </if>
+                    </where>
+                    )
+		WHERE RNUM &lt; 13
+	</select>
+	
+	<select id="recipeSearchByMenu" resultType="recipeWithIngCnt">
+		SELECT R.*, C.CHEF_PROFILE FROM TB_RECIPE R 
+								LEFT JOIN TB_CHEF C ON R.CHEF_ID = C.MEMBER_ID 
+			where (video_title like '%'||#{searchKey}||'%' or menu_name like '%'||#{searchKey}||'%')
+			
+			<choose>
+				<when test="searchSCtg != null">
+					 and category like #{searchMCtg}||'/'||#{searchSCtg}
+				</when>			
+				<when test="searchSCtg == null">
+					 and category like #{searchMCtg}||'%'
+				</when>			
+			</choose>
+			
+	</select>
+	
+
+	<select id="selectMenuSubCtg" resultType="string">
+		select menu_cd_category from tb_menu_category where menu_pr_category = #{mainCtg}
+	</select>
+	
+
+	<select id="recipeSelectAll" resultType="recipe">
+		select 
+			*
+		from 
+			tb_recipe
+		where
+			chef_nick = #{chefNickName}
+		order by regdate
+	</select>
+	
+	<select id="selectReportList" resultMap="ReportMap">
+		select
+			*
+		from tb_report
+	</select>
+	
+	<resultMap id="ReportMap" type="Report">
+		<result column="member_id" property="repMemberId"/>
+	</resultMap>
+	
+
+	<insert id="ingredientInsert">
+		insert into 
+				tb_ingredieont
+			values(
+				seq_Ingredient.nextval(),
+				#{ingPrCategory},
+				#{ingCdCategory},
+				#{ingredientName},
+				#{ingFileName},
+				#{engPrCategory},
+				#{engCdCategory}
+			)
+	</insert>
+
+<select id="selectRecipeCnt" resultType="_int">
+		    SELECT count(*) 
+		    	FROM TB_RECIPE R JOIN 
+		    		(SELECT COUNT(*) INCLUDE_NO, T.RECIPE_NO 
+		    			FROM (SELECT * FROM TB_REC_INGREDIENTS WHERE INGREDIENT_NO IN
+							<if test="ingNoArr != null">				
+							<foreach collection="ingNoArr" item="item" open="(" separator="," close=")">
+								#{item}
+							</foreach>
+							</if>
+							) T GROUP BY RECIPE_NO ORDER BY 1) J 
+                ON R.RECIPE_NO = J.RECIPE_NO
+                LEFT JOIN TB_CHEF C ON R.CHEF_ID = C.MEMBER_ID
+	</select>
+	
+	<select id="rcpCntByMenu" resultType="_int">
+	
+	SELECT count(*) FROM TB_RECIPE 
+			where (video_title like '%'||#{searchKey}||'%' or menu_name like '%'||#{searchKey}||'%')
+			
+			<choose>
+				<when test="searchMCtg != null and searchSCtg != null">
+					 and category like #{searchMCtg}||'/'||#{searchSCtg}
+				</when>			
+				<when test="searchMCtg != null and searchSCtg == null">
+					 and category like #{searchMCtg}||'%'
+				</when>			
+			</choose>
+	</select>
+
+</mapper>
