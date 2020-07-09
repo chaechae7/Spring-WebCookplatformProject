@@ -26,13 +26,12 @@
 
 - **약 한달 남짓한 시간을 들여 프로젝트를 진행하였습니다.**
 
-![OmNyomNyom%20f539717666f249489c48b922f672cde9/Untitled.png](OmNyomNyom%20f539717666f249489c48b922f672cde9/Untitled.png)
-
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/915366dd-cbda-4ec3-8766-87bcd54d5048/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/915366dd-cbda-4ec3-8766-87bcd54d5048/Untitled.png)
 ## **ERD 다이어그램**
 
 - **프로젝트를 진행함에 있어 사람들과 소통하고 협업하기 위해 ERD 다이어그램을 통해 다 같이 프로그램의 기초를 설계하고 구현함에 있어 의견을 통일하여 구현하는데 있어 어려움이 없도록 노력했습니다.**
 
-![OmNyomNyom%20f539717666f249489c48b922f672cde9/Untitled%201.png](OmNyomNyom%20f539717666f249489c48b922f672cde9/Untitled%201.png)
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d6943fdf-8773-4848-9ba3-75893680cb81/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/d6943fdf-8773-4848-9ba3-75893680cb81/Untitled.png)
 
 ## 개발환경
 
